@@ -1,0 +1,11 @@
+# server/.gitignore
+
+# Ignore environment variables
+.env
+
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log
+yarn-error.log
