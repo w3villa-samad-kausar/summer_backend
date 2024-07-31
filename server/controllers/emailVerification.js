@@ -1,4 +1,3 @@
-
 const crypto = require('crypto');
 const db = require('../config/db_config');
 
@@ -29,6 +28,10 @@ const verifyEmail = (req, res) => {
             return res.status(400).json({ msg: 'Email verification time expired' });
         }
 
+        // Log the user_data to check its content
+        console.log('user_data:', verificationRecord.user_data);
+
+        const userData = verificationRecord.user_data;
 
         // Update email verification status and insert user data in a transaction
         db.beginTransaction((err) => {
@@ -45,9 +48,8 @@ const verifyEmail = (req, res) => {
                     });
                 }
 
-                const userData = JSON.parse(verificationRecord.user_data);
-                db.query(`INSERT INTO user_table (username, email, password, mobile_number) VALUES (?, ?, ?, ?)`, 
-                    [userData.username, userData.email, userData.password, userData.mobile_number], 
+                db.query(`INSERT INTO user_table (name, email, password, mobile_number) VALUES (?, ?, ?, ?)`, 
+                    [userData.username, userData.email, userData.password, userData.mobileNumber], 
                     (err) => {
                         if (err) {
                             return db.rollback(() => {
