@@ -23,3 +23,12 @@ exports.signupValidation = [
   check('mobileNumber', 'Mobile number should be 10 digits').isLength({ min: 10, max: 10 }).isNumeric(),
 
 ];
+
+exports.loginValidation=[
+  // Check for email
+  check('email', 'Please provide a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
+
+  // Check for password
+  check('password', 'Password is required').not().isEmpty(),
+  check('password', 'Password should be at least 6 characters long').isLength({ min: 6 }),
+]

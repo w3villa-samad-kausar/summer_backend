@@ -1,11 +1,8 @@
 const express=require("express");
 const router=express.Router();
-const { signupValidation } = require("../helpers/validation");
+const { signupValidation,loginValidation } = require("../helpers/validation");
 const userController = require("../controllers/userController");
 const emailVerification = require("../controllers/emailVerification");
-// const { default: OtpVerification } = require("../../screens/authScreens/OtpVerification");
-
-// const otpVerification=require("../controller/otpVerification");
 
 const otpVerification=require("../controllers/otpVerification")
 
