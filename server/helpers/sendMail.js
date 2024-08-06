@@ -12,8 +12,6 @@ const sendMail = async (email, mailSubject, content) => {
         pass: SMTP_PASSWORD
       }
     });
-    console.log(SMTP_MAIL);
-    console.log(SMTP_PASSWORD);
 
     // Define the email options
     const mailOptions = {

@@ -7,9 +7,11 @@ const otplib = require('otplib');
 const sendMail = require("../helpers/sendMail");
 const sendOtp = require("../helpers/sendOtp");
 
+const jsonwebtoken = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET;
 
 const register = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body); 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -43,7 +45,7 @@ const register = async (req, res) => {
                     const verificationHash = crypto.createHash('sha256').update(verificationToken).digest('hex');
 
                     const userData = JSON.stringify({
-                        username: req.body.username,
+                        name: req.body.name,
                         email: req.body.email,
                         password: hash,
                         mobileNumber: req.body.mobileNumber
@@ -51,12 +53,12 @@ const register = async (req, res) => {
 
                     const query = `
                         INSERT INTO user_verification_table (
-                            unique_reference_id, verification_hash, user_data, expire_at, mobile_otp, email
+                            unique_reference_id, verification_hash, user_data, email_expire_at,mobile_otp_expire_at, mobile_otp, email,mobile_number
                         ) VALUES (
-                            ?, ?, ?, DATE_ADD(NOW(), INTERVAL 50 MINUTE), ?, ?
+                            ?, ?, ?, DATE_ADD(NOW(), INTERVAL 5 MINUTE),DATE_ADD(NOW(),INTERVAL 2 MINUTE), ?, ?, ?
                         )`;
 
-                    db.query(query, [uniqueReferenceId, verificationHash, userData, mobileOtp, req.body.email], async (err, result) => {
+                    db.query(query, [uniqueReferenceId, verificationHash, userData, mobileOtp, req.body.email,req.body.mobileNumber], async (err, result) => {
                         if (err) {
                             console.error('Database insert error:', err);
                             return res.status(500).send({ msg: 'Database insert error', error: err });
@@ -82,4 +84,58 @@ const register = async (req, res) => {
     });
 };
 
-module.exports = { register };
+const login =async(req ,res)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+    db.query(
+        `SELECT * FROM user_table WHERE email=${db.escape(req.body.email)};`,
+        (err, result) => {
+            if (err){
+                return res.status(400).send({
+                    msg:err
+                })
+            }
+            if(!result.length){
+                return res.status(400).send({
+                    msg:'Invalid email or password 123'
+                })
+            }
+            bcrypt.compare(
+                req.body.password,
+                result[0]['password'],
+                (bcryptError,bcrytResult)=>{
+                    if (bcryptError){
+                        return res.status(400).send({
+                            msg:err
+                        })
+                    }
+                    if(!bcrytResult){
+                        return res.status(402).send({
+                            msg:"invalid password"
+                        })
+                    }
+                    if (bcrytResult){
+                        const jwtToken=jsonwebtoken.sign({id:result[0]['id']}, jwtSecret ,{ expiresIn:"1h" });
+                        console.log(jwtToken);
+                        
+                        
+                        return res.status(200).send({
+                            msg:'user login success',
+                            token:jwtToken,
+                            user:result[0]
+                        })
+                    }
+                }
+                
+            )
+            // return res.status(400).send({
+            //     msg:'Invalid email or password abcd'
+            // })
+        }
+    )
+}
+
+module.exports = { register,login };

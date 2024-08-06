@@ -7,9 +7,10 @@ const userRouter = require('./routes/userRoute');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-// const { createTable } = require('./models/verificationModel'); // for creating verification table
-// const { createTable } = require('./models/usersModel'); // for creating user table
-
+const { createVerificationTable } = require('./models/verificationModel'); // for creating verification table
+const { createTable } = require('./models/usersModel'); // for creating user table
+createTable()
+createVerificationTable()
 
 const port = process.env.PORT || 3000;
 

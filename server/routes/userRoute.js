@@ -10,4 +10,6 @@ router.post('/register',signupValidation,userController.register);
 router.get('/verify-email',emailVerification.verifyEmail);
 router.post('/verify-otp',otpVerification.verifyOtp);
 
+router.post('/login',loginValidation,userController.login)
+
 module.exports=router;

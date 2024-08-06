@@ -2,16 +2,18 @@ const conn = require("../config/db_config");
 
 
 // Function to create table
-const createTable = () => {
+const createVerificationTable = () => {
   const createTableQuery = `
     CREATE TABLE  if not exists user_verification_table (
     id INT AUTO_INCREMENT PRIMARY KEY,
     unique_reference_id VARCHAR(255) UNIQUE NOT NULL,
     email varchar(500) unique,
+    mobile_number varchar(10) unique,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     verification_hash varchar(255) NULL,
-    expire_at DATETIME NULL,
+    email_expire_at DATETIME NULL,
+    mobile_otp_expire_at DATETIME NULL,
     email_verified_at DATETIME NULL,
     mobile_verified_at DATETIME NULL,
     is_active BOOLEAN DEFAULT TRUE,
@@ -21,8 +23,6 @@ const createTable = () => {
     is_email_verified boolean default false,
     is_mobile_verified boolean default false,
     is_processed boolean default false,
-    
-  
     mobile_otp VARCHAR(6) NULL
 );
 
@@ -38,7 +38,7 @@ const createTable = () => {
 };
 
 // Call the function to ensure table is created
-createTable();
+// createVerificationTable();
 
 // Export the functions
-module.exports = { createTable };
+module.exports = { createVerificationTable };

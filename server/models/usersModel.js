@@ -23,7 +23,7 @@ const createTable = () => {
 };
 
 // Call the function to ensure table is created
-createTable();
+// createTable();
 
 // Export the functions
 module.exports = { createTable };
