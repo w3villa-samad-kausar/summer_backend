@@ -39,7 +39,7 @@ const resendEmailVerification = async (req, res) => {
       // Update the database with the new verification hash and expiry time
       const updateQuery = `
         UPDATE user_verification_table
-        SET verification_hash = ?, email_expire_at = ?
+        SET verification_hash = ?, email_expire_at = ?, email_retry_count = email_retry_count + 1
         WHERE email = ?
       `;
 
