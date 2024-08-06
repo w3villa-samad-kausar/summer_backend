@@ -17,13 +17,14 @@ const createVerificationTable = () => {
     email_verified_at DATETIME NULL,
     mobile_verified_at DATETIME NULL,
     is_active BOOLEAN DEFAULT TRUE,
-    retry_count INT DEFAULT 0,
+    otp_retry_count INT DEFAULT 0,
+    email_retry_count INT DEFAULT 0,
     comment TEXT NULL,
     user_data JSON NULL,
     is_email_verified boolean default false,
     is_mobile_verified boolean default false,
     is_processed boolean default false,
-    mobile_otp VARCHAR(6) NULL
+    mobile_otp VARCHAR(4) NULL
 );
 
   `;

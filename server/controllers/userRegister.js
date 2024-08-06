@@ -7,8 +7,6 @@ const otplib = require('otplib');
 const sendMail = require("../helpers/sendMail");
 const sendOtp = require("../helpers/sendOtp");
 
-const jsonwebtoken = require('jsonwebtoken');
-const jwtSecret = process.env.JWT_SECRET;
 
 const register = async (req, res) => {
     // console.log(req.body); 
@@ -37,7 +35,7 @@ const register = async (req, res) => {
                     const uniqueReferenceId = crypto.randomBytes(16).toString('hex');
 
                     // Generate OTP
-                    otplib.authenticator.options = { digits: 6, step: 600 }; // step is 600 seconds (10 minutes)
+                    otplib.authenticator.options = { digits: 4, step: 120 }; // step is 600 seconds (10 minutes)
                     const secret = otplib.authenticator.generateSecret(); // Generate a unique secret for the user
                     const mobileOtp = otplib.authenticator.generate(secret);
 
@@ -84,58 +82,5 @@ const register = async (req, res) => {
     });
 };
 
-const login =async(req ,res)=>{
-    const errors=validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({ errors: errors.array() })
-    }
 
-    db.query(
-        `SELECT * FROM user_table WHERE email=${db.escape(req.body.email)};`,
-        (err, result) => {
-            if (err){
-                return res.status(400).send({
-                    msg:err
-                })
-            }
-            if(!result.length){
-                return res.status(400).send({
-                    msg:'Invalid email or password 123'
-                })
-            }
-            bcrypt.compare(
-                req.body.password,
-                result[0]['password'],
-                (bcryptError,bcrytResult)=>{
-                    if (bcryptError){
-                        return res.status(400).send({
-                            msg:err
-                        })
-                    }
-                    if(!bcrytResult){
-                        return res.status(402).send({
-                            msg:"invalid password"
-                        })
-                    }
-                    if (bcrytResult){
-                        const jwtToken=jsonwebtoken.sign({id:result[0]['id']}, jwtSecret ,{ expiresIn:"1h" });
-                        console.log(jwtToken);
-                        
-                        
-                        return res.status(200).send({
-                            msg:'user login success',
-                            token:jwtToken,
-                            user:result[0]
-                        })
-                    }
-                }
-                
-            )
-            // return res.status(400).send({
-            //     msg:'Invalid email or password abcd'
-            // })
-        }
-    )
-}
-
-module.exports = { register,login };
+module.exports = { register};

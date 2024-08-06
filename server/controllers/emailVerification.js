@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const db = require('../config/db_config');
 
 const verifyEmail = (req, res) => {
-    const token = req.query.token;
+    const token = req.body.token;
 
     if (!token) {
         return res.status(400).json({ msg: 'Invalid verification link' });
