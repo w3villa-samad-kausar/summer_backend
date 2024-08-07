@@ -1,34 +1,32 @@
 const crypto = require('crypto');
 const sendMail = require("../helpers/sendMail");
 const db = require("../config/db_config");
+const userQueries=require("../queries/userQueries");
+const messages=require("../messages/messages.json")
 
 const resendEmailVerification = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    return res.status(400).send({ msg: 'Email is required' });
+    return res.status(400).send({ msg: messages.emailRequired });
   }
 
   try {
     // Check if the email is already verified
-    const selectQuery = `
-      SELECT is_email_verified FROM user_verification_table
-      WHERE email = ?
-    `;
 
-    db.query(selectQuery, [email], async (error, results) => {
+    userQueries.checkEmailVerified(email, async (error, results) => {
       if (error) {
-        console.error('Error checking email verification:', error);
-        return res.status(500).send({ msg: 'Failed to check email verification', error });
+        console.error(messages.failedEmailVerification, error);
+        return res.status(500).send({ msg: messages.failedEmailVerification, error });
       }
 
       if (results.length === 0) {
-        return res.status(404).send({ msg: 'User not found' });
+        return res.status(404).send({ msg:messages.userNotFound });
       }
 
       const { is_email_verified } = results[0];
       if (is_email_verified) {
-        return res.status(400).send({ msg: 'Email is already verified' });
+        return res.status(400).send({ msg: messages.emailVerified });
       }
 
       // Generate a new verification hash
@@ -37,34 +35,29 @@ const resendEmailVerification = async (req, res) => {
       const emailExpireAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
 
       // Update the database with the new verification hash and expiry time
-      const updateQuery = `
-        UPDATE user_verification_table
-        SET verification_hash = ?, email_expire_at = ?, email_retry_count = email_retry_count + 1
-        WHERE email = ?
-      `;
+      
 
-      db.query(updateQuery, [verificationHash, emailExpireAt, email], async (error, results) => {
+      userQueries.updateEmail(verificationHash, emailExpireAt, email, async (error, results) => {
         if (error) {
-          console.error('Error updating verification hash:', error);
-          return res.status(500).send({ msg: 'Failed to update verification hash', error });
+          console.error(messages.failedVerificationUpdate, error);
+          return res.status(500).send({ msg: messages.failedVerificationUpdate, error });
         }
 
         // Send verification email
-        const mailSubject = 'Email Verification';
-        const content = `<p>Please click the link below to verify your email:<br/><a href="http://localhost:3000/verify-email?token=${verificationToken}">Verify</a></p>`;
+        const content = `<p>${messages.emailBody}<br/><a href="${messages.verificationLink}${verificationToken}">${messages.emailVerificationLinkText}</a></p>`;
 
         try {
-          await sendMail(email, mailSubject, content);
-          return res.status(201).send({ msg: 'Verification email resent. Please check your inbox', token: verificationHash });
+          await sendMail(email, messages.emailSubject, content);
+          return res.status(201).send({ msg: messages.emailResent, token: verificationHash });
         } catch (error) {
-          console.error('Error sending verification email:', error);
-          return res.status(500).send({ msg: 'Failed to send verification email', error });
+          console.error(messages.failedEmailSend, error);
+          return res.status(500).send({ msg: messages.failedEmailSend, error });
         }
       });
     });
   } catch (error) {
-    console.error('Error processing request:', error);
-    return res.status(500).send({ msg: 'Failed to resend verification email', error });
+    console.error(messages.errorProcessingRequest, error);
+    return res.status(500).send({ msg: messages.failedEmailSend, error });
   }
 };
 

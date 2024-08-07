@@ -1,0 +1,51 @@
+{
+    "databaseQueryError": "Database query error",
+
+    "invalidEmailOrPassword": "Invalid email or password",
+
+    "hashPasswordError": "Error in generating Hash Password",
+
+    "databaseInsertError": "Database insert error",
+
+    "userRegistered": "User registered successfully. Please check your email and mobile for verification.",
+
+    "otpSendError": "User registered, but failed to send OTP",
+
+    "loginSuccess": "User login successful",
+
+    "invalidPassword": "Invalid password",
+
+    "failedMobileVerification": "Failed to check mobile verification",
+
+    "userNotFound": "User not found",
+
+    "mobileVerified": "Mobile number is already verified",
+
+    "failedOtpUpdate": "Failed to update OTP",
+
+    "otpResent": "OTP resent. Please check your messages",
+
+    "failedOtpSend": "Failed to send OTP",
+
+    "emailRequired":"Email is required",
+
+    "failedEmailVerification": "Failed to check email verification",
+
+    "emailVerified": "Email is already verified",
+
+    "failedVerificationUpdate":"Error updating verification hash",
+
+    "emailSubject":"Email Verification",
+
+    "emailBody":"Please click the link below to verify your email:",
+
+    "emailVerificationLink":"http://localhost:4000/verify-email?token=",
+
+    "emailVerificationLinkText":"Verify",
+
+    "emailResent":"Verification email resent. Please check your inbox",
+
+    "failedEmailSend":"Error sending verification email",
+
+    "errorProcessingRequest":"Error processing request"
+}
