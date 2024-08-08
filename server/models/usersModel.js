@@ -9,7 +9,9 @@ const createTable = () => {
       name VARCHAR(255),
       email VARCHAR(255) unique ,
       password VARCHAR(100),
-      mobile_number varchar(10)
+      mobile_number VARCHAR(10),
+      next_action VARCHAR(30) DEFAULT "OTP Verification",
+      is_social_sigin BOOLEAN DEFAULT false
     );
   `;
 

@@ -4,6 +4,7 @@ const messages = require('../messages/messages.json');
 const db=require('../config/db_config')
 const verifyEmail = (req, res) => {
     const token = req.body.token;
+    const email=req.body.email
 
     if (!token) {
         return res.status(400).json({ msg: messages.invalidVerificationLink });
@@ -28,7 +29,7 @@ const verifyEmail = (req, res) => {
             return res.status(400).json({ msg: messages.emailVerificationTimeExpired });
         }
 
-        userQueries.updateEmailVerifiedStatus(verificationHash, (err, updateResult) => {
+        userQueries.updateEmailVerifiedStatus(verificationHash,email, (err, updateResult) => {
             if (err) {
                 console.error(messages.databaseUpdateError, err);
                 return res.status(500).json({ msg: messages.databaseUpdateError });

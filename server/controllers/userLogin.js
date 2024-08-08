@@ -1,10 +1,8 @@
 const { validationResult } = require("express-validator");
-const db = require("../config/db_config");
 const bcrypt = require("bcrypt");
 const userQueries = require('../queries/userQueries');
 const messages = require('../messages/messages.json');
-const jsonwebtoken = require('jsonwebtoken');
-const jwtSecret = process.env.JWT_SECRET;
+const jwtTokenGenerator = require("../controllers/jwtTokenGenerator");
 
 const login = async (req, res) => {
     const errors = validationResult(req);
@@ -30,7 +28,8 @@ const login = async (req, res) => {
                 return res.status(402).send({ msg: messages.invalidPassword });
             }
 
-            const jwtToken = jsonwebtoken.sign({ id: result[0]['id'] }, jwtSecret, { expiresIn: "1h" });
+            const jwtToken=jwtTokenGenerator(req.body.email)
+
             return res.status(200).send({
                 msg: messages.loginSuccess,
                 token: jwtToken,

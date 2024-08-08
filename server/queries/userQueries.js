@@ -1,6 +1,6 @@
 const db = require('../config/db_config');
 
-const checkEmailExists = (email, callback) => {
+const checkEmailExistsInUser_Verification_table = (email, callback) => {
     db.query(`SELECT * FROM user_verification_table WHERE LOWER(email) = LOWER(${email});`, callback);
 };
 
@@ -14,7 +14,7 @@ const insertUserVerification = (uniqueReferenceId, verificationHash, userData, m
     db.query(query, [uniqueReferenceId, verificationHash, userData, mobileOtp, email, mobileNumber], callback);
 };
 
-const checkUserByEmail = (email, callback) => {
+const checkUserByEmailInUser_Table = (email, callback) => {
     db.query(`SELECT * FROM user_table WHERE email=${db.escape(email)};`, callback);
 };
 
@@ -60,8 +60,8 @@ const updateMobileVerifiedStatus = (mobileNumber, callback) => {
 
 const insertUser = (userData, callback) => {
     const insertQuery = `
-        INSERT INTO user_table (name, email, password, mobile_number) 
-        VALUES (?, ?, ?, ?)
+        INSERT INTO user_table (name, email, password, mobile_number,next_action) 
+        VALUES (?, ?, ?, ?,"Email Verification")
     `;
     db.query(insertQuery, [userData.name, userData.email, userData.password, userData.mobileNumber], callback);
 };
@@ -75,18 +75,54 @@ const checkEmailVerificationHash = (verificationHash, callback) => {
     db.query(selectQuery, [verificationHash], callback);
 };
 
-const updateEmailVerifiedStatus = (verificationHash, callback) => {
-    const updateQuery = `
+const updateEmailVerifiedStatus = (verificationHash, email, callback) => {
+    const updateVerificationQuery = `
         UPDATE user_verification_table 
         SET is_email_verified = true, email_verified_at = NOW() 
         WHERE verification_hash = ?
     `;
-    db.query(updateQuery, [verificationHash], callback);
+    
+    const updateNextActionQuery = `
+        UPDATE user_table 
+        SET next_action = NULL 
+        WHERE email = ?
+    `;
+    
+    db.beginTransaction((err) => {
+        if (err) return callback(err);
+
+        db.query(updateVerificationQuery, [verificationHash], (err, result) => {
+            if (err) {
+                return db.rollback(() => {
+                    callback(err);
+                });
+            }
+
+            db.query(updateNextActionQuery, [email], (err, result) => {
+                if (err) {
+                    return db.rollback(() => {
+                        callback(err);
+                    });
+                }
+
+                db.commit((err) => {
+                    if (err) {
+                        return db.rollback(() => {
+                            callback(err);
+                        });
+                    }
+                    callback(null, result);
+                });
+            });
+        });
+    });
 };
+
+
 module.exports = {
-    checkEmailExists,
+    checkEmailExistsInUser_Verification_table,
     insertUserVerification,
-    checkUserByEmail,
+    checkUserByEmailInUser_Table,
     checkUserByMobileNumber,
     checkMobileVerified,
     updateOtp,

@@ -43,5 +43,6 @@
     "invalidPassword": "Invalid password",
     "userNotFound": "User not found",
     "errorProcessingRequest": "Error processing request",
-    "otpSendError": "User registered, but failed to send OTP"
+    "otpSendError": "User registered, but failed to send OTP",
+    "userAlreadyExists":"User Already exists. Please Login"
 }
