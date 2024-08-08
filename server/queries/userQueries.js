@@ -18,6 +18,9 @@ const checkUserByEmail = (email, callback) => {
     db.query(`SELECT * FROM user_table WHERE email=${db.escape(email)};`, callback);
 };
 
+const checkUserByMobileNumber = (mobileNumber, callback) => {
+    db.query(`SELECT * FROM user_verification_table WHERE mobile_number=${db.escape(mobileNumber)};`,callback)
+}
 
 const checkMobileVerified = (mobileNumber, callback) => {
     const selectQuery = `SELECT is_mobile_verified FROM user_verification_table WHERE mobile_number = ?`;
@@ -44,15 +47,53 @@ const updateEmail = (verificationHash, emailExpireAt, email, callback) => {
         WHERE email = ?
       `;
     db.query(updateQuery, [verificationHash, emailExpireAt, email], callback);
-}
+};
+
+const updateMobileVerifiedStatus = (mobileNumber, callback) => {
+    const updateQuery = `
+        UPDATE user_verification_table 
+        SET is_mobile_verified = true, mobile_verified_at = NOW(), is_processed = TRUE 
+        WHERE mobile_number = ?
+    `;
+    db.query(updateQuery, [mobileNumber], callback);
+};
+
+const insertUser = (userData, callback) => {
+    const insertQuery = `
+        INSERT INTO user_table (name, email, password, mobile_number) 
+        VALUES (?, ?, ?, ?)
+    `;
+    db.query(insertQuery, [userData.name, userData.email, userData.password, userData.mobileNumber], callback);
+};
 
 
+const checkEmailVerificationHash = (verificationHash, callback) => {
+    const selectQuery = `
+        SELECT * FROM user_verification_table 
+        WHERE verification_hash = ?
+    `;
+    db.query(selectQuery, [verificationHash], callback);
+};
+
+const updateEmailVerifiedStatus = (verificationHash, callback) => {
+    const updateQuery = `
+        UPDATE user_verification_table 
+        SET is_email_verified = true, email_verified_at = NOW() 
+        WHERE verification_hash = ?
+    `;
+    db.query(updateQuery, [verificationHash], callback);
+};
 module.exports = {
     checkEmailExists,
     insertUserVerification,
     checkUserByEmail,
+    checkUserByMobileNumber,
     checkMobileVerified,
     updateOtp,
     checkEmailVerified,
-    updateEmail
+    updateEmail,
+    updateMobileVerifiedStatus,
+    insertUser,
+    checkEmailVerificationHash,
+    updateEmailVerifiedStatus
 };

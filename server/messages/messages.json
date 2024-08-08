@@ -1,51 +1,47 @@
 {
+    "//comment": "Database error messages",
     "databaseQueryError": "Database query error",
-
-    "invalidEmailOrPassword": "Invalid email or password",
-
-    "hashPasswordError": "Error in generating Hash Password",
-
+    "databaseTransactionError": "Database transaction error",
+    "databaseUpdateError": "Database update error",
+    "databaseCommitError": "Database commit error",
     "databaseInsertError": "Database insert error",
 
-    "userRegistered": "User registered successfully. Please check your email and mobile for verification.",
+    "//comment2": "Email errors",
+    "emailExists": "This Email is already registered",
+    "emailRequired": "Email is required",
+    "emailVerified": "Email is already verified",
+    "failedEmailVerification": "Failed to check email verification",
+    "failedEmailSend": "Error sending verification email",
+    "failedVerificationUpdate": "Error updating verification hash",
+    "invalidVerificationLink": "Invalid verification link",
+    "emailVerificationTimeExpired": "Email verification time expired",
 
-    "otpSendError": "User registered, but failed to send OTP",
+    "comment3": "email parts",
+    "emailSubject": "Email Verification",
+    "emailBody": "Please click the link below to verify your email:",
+    "emailVerificationLink": "http://localhost:4000/verify-email?token=",
+    "emailVerificationLinkText": "Verify",
 
-    "loginSuccess": "User login successful",
-
-    "invalidPassword": "Invalid password",
-
+    "comment4": "Mobile",
+    "invalidOtp": "Invalid OTP",
+    "otpTimeExpired": "OTP verification time expired",
     "failedMobileVerification": "Failed to check mobile verification",
-
-    "userNotFound": "User not found",
-
-    "mobileVerified": "Mobile number is already verified",
-
+    "mobileAlreadyVerified": "Mobile number is already verified",
     "failedOtpUpdate": "Failed to update OTP",
-
     "otpResent": "OTP resent. Please check your messages",
-
     "failedOtpSend": "Failed to send OTP",
 
-    "emailRequired":"Email is required",
+    "comment5": "Success messages",
+    "otpVerifiedSuccess": "OTP verified and user created successfully",
+    "userRegistered": "User registered successfully. Please check your email and mobile for verification.",
+    "loginSuccess": "User login successful",
+    "emailResent": "Verification email resent. Please check your inbox",
 
-    "failedEmailVerification": "Failed to check email verification",
-
-    "emailVerified": "Email is already verified",
-
-    "failedVerificationUpdate":"Error updating verification hash",
-
-    "emailSubject":"Email Verification",
-
-    "emailBody":"Please click the link below to verify your email:",
-
-    "emailVerificationLink":"http://localhost:4000/verify-email?token=",
-
-    "emailVerificationLinkText":"Verify",
-
-    "emailResent":"Verification email resent. Please check your inbox",
-
-    "failedEmailSend":"Error sending verification email",
-
-    "errorProcessingRequest":"Error processing request"
+    "comment6": "Failure messages",
+    "invalidEmailOrPassword": "Invalid email or password",
+    "hashPasswordError": "Error in generating Hash Password",
+    "invalidPassword": "Invalid password",
+    "userNotFound": "User not found",
+    "errorProcessingRequest": "Error processing request",
+    "otpSendError": "User registered, but failed to send OTP"
 }
