@@ -33,7 +33,7 @@
 
     "comment5": "Success messages",
     "otpVerifiedSuccess": "OTP verified and user created successfully",
-    "userRegistered": "User registered successfully. Please check your email and mobile for verification.",
+    "userRegistered": "User registered. Check messages for OTP",
     "loginSuccess": "User login successful",
     "emailResent": "Verification email resent. Please check your inbox",
 

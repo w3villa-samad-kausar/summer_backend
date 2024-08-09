@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 const sendMail = require("../helpers/sendMail");
-const db = require("../config/db_config");
 const userQueries=require("../queries/userQueries");
 const messages=require("../messages/messages.json")
 

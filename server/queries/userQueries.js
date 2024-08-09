@@ -4,22 +4,31 @@ const checkEmailExistsInUser_Verification_table = (email, callback) => {
     db.query(`SELECT * FROM user_verification_table WHERE LOWER(email) = LOWER(${email});`, callback);
 };
 
-const insertUserVerification = (uniqueReferenceId, verificationHash, userData, mobileOtp, email, mobileNumber, callback) => {
+const insertUserVerification = (userData, mobileOtp, email, mobileNumber, callback) => {
     const query = `
         INSERT INTO user_verification_table (
-            unique_reference_id, verification_hash, user_data, email_expire_at, mobile_otp_expire_at, mobile_otp, email, mobile_number
+             user_data, mobile_otp_expire_at, mobile_otp, email, mobile_number
         ) VALUES (
-            ?, ?, ?, DATE_ADD(NOW(), INTERVAL 5 MINUTE), DATE_ADD(NOW(), INTERVAL 2 MINUTE), ?, ?, ?
+             ?, DATE_ADD(NOW(), INTERVAL 2 MINUTE), ?, ?, ?
         )`;
-    db.query(query, [uniqueReferenceId, verificationHash, userData, mobileOtp, email, mobileNumber], callback);
+    db.query(query, [userData, mobileOtp, email, mobileNumber], callback);
 };
+
+const updateUserVerification = (userData, mobileOtp, mobileNumber, email, callback) => {
+    const query = `
+        UPDATE user_verification_table 
+        SET user_data=?, mobile_otp_expire_at=DATE_ADD(NOW(),INTERVAL 2 MINUTE),mobile_otp=?,mobile_number=?
+        WHERE email = ?`;
+    db.query(query, [userData, mobileOtp, mobileNumber, email], callback);
+};
+
 
 const checkUserByEmailInUser_Table = (email, callback) => {
     db.query(`SELECT * FROM user_table WHERE email=${db.escape(email)};`, callback);
 };
 
 const checkUserByMobileNumber = (mobileNumber, callback) => {
-    db.query(`SELECT * FROM user_verification_table WHERE mobile_number=${db.escape(mobileNumber)};`,callback)
+    db.query(`SELECT * FROM user_verification_table WHERE mobile_number=${db.escape(mobileNumber)};`, callback)
 }
 
 const checkMobileVerified = (mobileNumber, callback) => {
@@ -81,13 +90,13 @@ const updateEmailVerifiedStatus = (verificationHash, email, callback) => {
         SET is_email_verified = true, email_verified_at = NOW() 
         WHERE verification_hash = ?
     `;
-    
+
     const updateNextActionQuery = `
         UPDATE user_table 
         SET next_action = NULL 
         WHERE email = ?
     `;
-    
+
     db.beginTransaction((err) => {
         if (err) return callback(err);
 
@@ -131,5 +140,6 @@ module.exports = {
     updateMobileVerifiedStatus,
     insertUser,
     checkEmailVerificationHash,
-    updateEmailVerifiedStatus
+    updateEmailVerifiedStatus,
+    updateUserVerification
 };

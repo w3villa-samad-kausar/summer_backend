@@ -1,5 +1,4 @@
 
-const crypto = require('crypto');
 const db = require('../config/db_config');
 const userQueries = require('../queries/userQueries')
 const messages = require('../messages/messages.json')
@@ -7,11 +6,6 @@ const messages = require('../messages/messages.json')
 const verifyOtp = (req, res) => {
     const mobileNumber = req.body.mobileNumber;
     const userOtp = req.body.otp;
-
-    //verification hash ki jagah mobile number use krna hai unique user ko identify krne me
-
-
-    // console.log(verificationHash);
 
     userQueries.checkMobileVerified(mobileNumber, (err, result) => {
         if (err) {
@@ -33,8 +27,6 @@ const verifyOtp = (req, res) => {
         if (!result || !result.length) {
             return res.status(400).json({ msg: messages.userNotFound });
         }
-        
-      
 
         const verificationRecord = result[0];
 

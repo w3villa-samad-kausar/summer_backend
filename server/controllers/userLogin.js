@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const userQueries = require('../queries/userQueries');
 const messages = require('../messages/messages.json');
-const jwtTokenGenerator = require("../controllers/jwtTokenGenerator");
+const jwtTokenGenerator = require("../helpers/jwtTokenGenerator");
 
 const login = async (req, res) => {
     const errors = validationResult(req);
@@ -10,7 +10,7 @@ const login = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    userQueries.checkUserByEmail(req.body.email, (err, result) => {
+    userQueries.checkUserByEmailInUser_Table(req.body.email, (err, result) => {
         if (err) {
             return res.status(400).send({ msg: messages.databaseQueryError });
         }

@@ -6,7 +6,6 @@ const createVerificationTable = () => {
   const createTableQuery = `
     CREATE TABLE  if not exists user_verification_table (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    unique_reference_id VARCHAR(255) UNIQUE NOT NULL,
     email varchar(500) unique,
     mobile_number varchar(10) unique,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

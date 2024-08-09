@@ -1,8 +1,7 @@
-const otplib = require('otplib');
 const sendOtp = require("../helpers/sendOtp");
-const db = require("../config/db_config");
 const userQueries=require('../queries/userQueries');
 const messages = require('../messages/messages.json');
+const { generateOtp }=require('../helpers/otpGenerator')
 const resendOtp = async (req, res) => {
   // First, check if the mobile is already verified
   
@@ -22,10 +21,7 @@ const resendOtp = async (req, res) => {
     }
 
     // Generate OTP
-    otplib.authenticator.options = { digits: 4, step: 120 }; // step is 120 seconds (2 minutes)
-    const secret = otplib.authenticator.generateSecret(); // Generate a unique secret for the user
-    const mobileOtp = otplib.authenticator.generate(secret);
-
+    const mobileOtp = generateOtp();
     // Calculate OTP expiry time
     const mobileOtpExpireAt = new Date(Date.now() + 120 * 1000); // 2 minutes from now
 
