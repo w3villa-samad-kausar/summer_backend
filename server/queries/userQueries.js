@@ -1,15 +1,15 @@
 const db = require('../config/db_config');
 
 const checkEmailExistsInUser_Verification_table = (email, callback) => {
-    db.query(`SELECT * FROM user_verification_table WHERE LOWER(email) = LOWER(${email});`, callback);
+    db.query(`SELECT * FROM user_verification_table WHERE email = "${email}";`, callback);
 };
 
 const insertUserVerification = (userData, mobileOtp, email, mobileNumber, callback) => {
     const query = `
         INSERT INTO user_verification_table (
-             user_data, mobile_otp_expire_at, mobile_otp, email, mobile_number
+            user_data, mobile_otp_expire_at, mobile_otp, email, mobile_number
         ) VALUES (
-             ?, DATE_ADD(NOW(), INTERVAL 2 MINUTE), ?, ?, ?
+            ?, DATE_ADD(NOW(), INTERVAL 2 MINUTE), ?, ?, ?
         )`;
     db.query(query, [userData, mobileOtp, email, mobileNumber], callback);
 };
@@ -49,6 +49,7 @@ const checkEmailVerified = (email, callback) => {
     const selectQuery = `SELECT is_email_verified FROM user_verification_table WHERE email = ?`;
     db.query(selectQuery, [email], callback);
 };
+
 const updateEmail = (verificationHash, emailExpireAt, email, callback) => {
     const updateQuery = `
         UPDATE user_verification_table
@@ -74,6 +75,41 @@ const insertUser = (userData, callback) => {
     `;
     db.query(insertQuery, [userData.name, userData.email, userData.password, userData.mobileNumber], callback);
 };
+
+const insertSocialUser = (email, userData, callback) => {
+    const insertQuery = `
+    INSERT INTO user_verification_table (user_data,email,is_social_signin)
+    VALUES (?,?,true)
+    `;
+    db.query(insertQuery, [userData, email], callback);
+};
+
+const insertOtp=(email,mobileNumber,mobileOtp,mobileOtpExpireAt,callback)=>{
+    const updateQuery=`
+    UPDATE user_verification_table 
+    SET mobile_number = ?,mobile_otp = ?,mobile_otp_expire_at = ?
+    WHERE email = ?
+    `;
+    db.query(updateQuery,[email,mobileNumber,mobileOtp,mobileOtpExpireAt],callback)
+};
+
+const updateIsSocialLogin=(email,callback)=>{
+    const updateQuery = `
+    UPDATE user_table 
+        SET is_social_sigin = true 
+        WHERE email = ?
+    `;
+    db.query(updateQuery, [email], callback);
+}
+
+const updateNextActionAndSocialSignin=(email,callback)=>{
+    const updateQuery = `
+    UPDATE user_table 
+        SET next_action = NULL , is_social_sigin = true
+        WHERE email = ?
+    `;
+    db.query(updateQuery, [email], callback);
+}
 
 
 const checkEmailVerificationHash = (verificationHash, callback) => {
@@ -139,7 +175,11 @@ module.exports = {
     updateEmail,
     updateMobileVerifiedStatus,
     insertUser,
+    insertSocialUser,
     checkEmailVerificationHash,
     updateEmailVerifiedStatus,
-    updateUserVerification
+    updateUserVerification,
+    updateIsSocialLogin,
+    updateNextActionAndSocialSignin,
+    insertOtp
 };

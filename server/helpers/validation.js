@@ -32,3 +32,13 @@ exports.loginValidation=[
   check('password', 'Password is required').not().isEmpty(),
   check('password', 'Password should be at least 6 characters long').isLength({ min: 6 }),
 ]
+
+exports.socialLoginValidation=[
+  // Check for email
+  check('email', 'Please provide a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
+
+  // Check for name
+  check('name', 'Name is required').not().isEmpty(),
+  check('name', 'Name should be at least 2 characters').isLength({ min: 2 }),
+
+]

@@ -36,6 +36,8 @@
     "userRegistered": "User registered. Check messages for OTP",
     "loginSuccess": "User login successful",
     "emailResent": "Verification email resent. Please check your inbox",
+    "socialUserCreated":"User created , please verify mobile number",
+    "otpSentSuccess": "OTP sent successfully",
 
     "comment6": "Failure messages",
     "invalidEmailOrPassword": "Invalid email or password",
@@ -44,5 +46,6 @@
     "userNotFound": "User not found",
     "errorProcessingRequest": "Error processing request",
     "otpSendError": "User registered, but failed to send OTP",
-    "userAlreadyExists":"User Already exists. Please Login"
+    "userAlreadyExists":"User Already exists. Please Login",
+    "otpVerificationNotCompleted":"OTP verification is pending"
 }

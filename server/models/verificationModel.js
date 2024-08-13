@@ -23,7 +23,8 @@ const createVerificationTable = () => {
     is_email_verified boolean default false,
     is_mobile_verified boolean default false,
     is_processed boolean default false,
-    mobile_otp VARCHAR(4) NULL
+    mobile_otp VARCHAR(4) NULL,
+    is_social_signin BOOLEAN DEFAULT false
 );
 
   `;

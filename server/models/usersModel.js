@@ -11,7 +11,7 @@ const createTable = () => {
       password VARCHAR(100),
       mobile_number VARCHAR(10),
       next_action VARCHAR(30) DEFAULT "OTP Verification",
-      is_social_sigin BOOLEAN DEFAULT false
+      is_social_signin BOOLEAN DEFAULT false
     );
   `;
 
