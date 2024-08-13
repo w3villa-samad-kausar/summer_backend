@@ -90,7 +90,7 @@ const insertOtp=(email,mobileNumber,mobileOtp,mobileOtpExpireAt,callback)=>{
     SET mobile_number = ?,mobile_otp = ?,mobile_otp_expire_at = ?
     WHERE email = ?
     `;
-    db.query(updateQuery,[email,mobileNumber,mobileOtp,mobileOtpExpireAt],callback)
+    db.query(updateQuery,[mobileNumber,mobileOtp,mobileOtpExpireAt,email],callback)
 };
 
 const updateIsSocialLogin=(email,callback)=>{

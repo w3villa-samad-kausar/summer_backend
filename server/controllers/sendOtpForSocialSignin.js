@@ -15,12 +15,11 @@ const sendOtpForSocialSignin = async (req, res) => {
             return res.status(400).send({ msg: messages.userNotFound })
         }
         if (result) {
-
+            console.log('hello')
             // Generate OTP
             const mobileOtp = generateOtp();
             // Calculate OTP expiry time
             const mobileOtpExpireAt = new Date(Date.now() + 120 * 1000); // 2 minutes from now
-
             userQueries.insertOtp(email, mobileNumber, mobileOtp, mobileOtpExpireAt, async (err, result) => {
                 //database query error
                 if (err) {
@@ -28,8 +27,8 @@ const sendOtpForSocialSignin = async (req, res) => {
                 }
                 //OTP inserted successfully
                 if (result) {
+                    console.log(result)
                     // Send OTP via SMS
-
                     try {
                         await sendOtp(mobileNumber, mobileOtp);
                         return res.status(201).send({ msg: messages.otpSentSuccess });
