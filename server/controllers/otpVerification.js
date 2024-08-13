@@ -1,7 +1,8 @@
 
 const db = require('../config/db_config');
 const userQueries = require('../queries/userQueries')
-const messages = require('../messages/messages.json')
+const messages = require('../messages/messages.json');
+const jwtTokenGenerator = require('../helpers/jwtTokenGenerator');
 
 const verifyOtp = (req, res) => {
     const mobileNumber = req.body.mobileNumber;
@@ -73,8 +74,11 @@ const verifyOtp = (req, res) => {
                                         return res.status(500).json({ msg: messages.databaseCommitError });
                                     });
                                 }
-    
-                                return res.status(200).json({ msg: messages.otpVerifiedSuccess });
+                                const jwtToken=jwtTokenGenerator(userData.email)
+                                return res.status(200).json({ 
+                                    msg: messages.otpVerifiedSuccess,
+                                    token:jwtToken
+                                });
                             });
                         }
                     );
@@ -112,8 +116,11 @@ const verifyOtp = (req, res) => {
                                     return res.status(500).json({ msg: messages.databaseCommitError });
                                 });
                             }
-
-                            return res.status(200).json({ msg: messages.otpVerifiedSuccess });
+                            const jwtToken=jwtTokenGenerator(userData.email)
+                                return res.status(200).json({ 
+                                    msg: messages.otpVerifiedSuccess,
+                                    token:jwtToken
+                                });
                         });
                     }
                 );
