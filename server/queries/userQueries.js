@@ -84,6 +84,15 @@ const insertSocialUser = (email, userData, callback) => {
     db.query(insertQuery, [userData, email], callback);
 };
 
+const insertSocialUserInUser_Table = (userData,mobileNumber, callback) => {
+    const insertQuery = `
+        INSERT INTO user_table (name, email, mobile_number,next_action,is_social_signin) 
+        VALUES (?, ?, ?,null,true)
+    `;
+    db.query(insertQuery, [userData.name, userData.email, mobileNumber], callback);
+};
+
+
 const insertOtp=(email,mobileNumber,mobileOtp,mobileOtpExpireAt,callback)=>{
     const updateQuery=`
     UPDATE user_verification_table 
@@ -176,6 +185,7 @@ module.exports = {
     updateMobileVerifiedStatus,
     insertUser,
     insertSocialUser,
+    insertSocialUserInUser_Table,
     checkEmailVerificationHash,
     updateEmailVerifiedStatus,
     updateUserVerification,

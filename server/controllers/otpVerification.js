@@ -43,6 +43,45 @@ const verifyOtp = (req, res) => {
         if (userOtp !== verificationRecord.mobile_otp) {
             return res.status(400).json({ msg: messages.invalidOtp });
         }
+        if(verificationRecord.is_social_signin){
+            db.beginTransaction((err) => {
+                if (err) {
+                    console.error(messages.databaseTransactionError, err);
+                    return res.status(500).json({ msg: messages.databaseTransactionError });
+                }
+    
+                userQueries.updateMobileVerifiedStatus(mobileNumber, (err, updateResult) => {
+                    if (err) {
+                        return db.rollback(() => {
+                            console.error(messages.databaseUpdateError, err);
+                            return res.status(500).json({ msg: messages.databaseUpdateError });
+                        });
+                    }
+    
+                    userQueries.insertSocialUserInUser_Table(userData,mobileNumber,(err) => {
+                            if (err) {
+                                return db.rollback(() => {
+                                    console.error(messages.databaseInsertError, err);
+                                    return res.status(500).json({ msg: messages.databaseInsertError });
+                                });
+                            }
+    
+                            db.commit((err) => {
+                                if (err) {
+                                    return db.rollback(() => {
+                                        console.error(messages.databaseCommitError, err);
+                                        return res.status(500).json({ msg: messages.databaseCommitError });
+                                    });
+                                }
+    
+                                return res.status(200).json({ msg: messages.otpVerifiedSuccess });
+                            });
+                        }
+                    );
+                });
+            });
+    
+        }
         db.beginTransaction((err) => {
             if (err) {
                 console.error(messages.databaseTransactionError, err);
