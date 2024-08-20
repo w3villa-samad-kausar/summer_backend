@@ -9,6 +9,7 @@ const resendOtp = require("../controllers/resendOTP");
 const resendEmailVerification = require("../controllers/resendMail");
 const socialLogin  = require("../controllers/socialLogin");
 const sendOtp = require('../controllers/sendOtpForSocialSignin');
+const profilePictureUpload=require('../controllers/profilePictureUploader')
 
 router.post('/register',signupValidation,userRegister.register);
 router.post('/verify-email',emailVerification.verifyEmail);
@@ -19,6 +20,7 @@ router.post('/send-Otp',sendOtp.sendOtpForSocialSignin)
 
 
 router.post('/login',loginValidation,userLogin.login);
-router.post('/social-login',socialLoginValidation,socialLogin.oAuthLogin)
+router.post('/social-login',socialLoginValidation,socialLogin.oAuthLogin);
+router.post('/profile-picture-upload',profilePictureUpload);
 
 module.exports=router;
