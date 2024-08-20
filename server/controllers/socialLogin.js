@@ -59,7 +59,7 @@ const oAuthLogin = (req, res) => {
             }
 
             // If a user already exists and has both OTP and email verified, we will update their social signin as true and login
-            if (!result[0].next_action) {
+            if (!(result[0].next_action)) {
                 userQueries.updateIsSocialLogin(email, (err, updateResult) => {
                     if (err) {
                         return res.status(400).send({ msg: err });
@@ -77,7 +77,7 @@ const oAuthLogin = (req, res) => {
             }
 
             // If a user comes and both their social signin and next action are null, we will simply login
-            if (!result[0].next_action && result[0].is_social_sigin) {
+            if (!(result[0].next_action) && result[0].is_social_sigin) {
                 const jwtToken = jwtTokenGenerator(req.body.email);
 
                 return res.status(200).send({

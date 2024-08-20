@@ -30,7 +30,7 @@ const profilePictureUpload = async (req, res) => {
             }
 
             const file = req.file
-            const email=req.body.email
+            const email = req.body.email
             
             if (!file) {
                 return res.status(400).json({ msg: 'No file provided' });
