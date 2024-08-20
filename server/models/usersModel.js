@@ -11,7 +11,13 @@ const createTable = () => {
       password VARCHAR(100),
       mobile_number VARCHAR(10),
       next_action VARCHAR(30) DEFAULT "OTP Verification",
-      is_social_signin BOOLEAN DEFAULT false
+      is_social_signin BOOLEAN DEFAULT false,
+      profile_picture_url TEXT DEFAULT NULL ,
+      address VARCHAR(255),
+      plan ENUM('free','silver','gold') DEFAULT 'free',
+      subscription_start_date DATETIME,
+      subscription_end_date DATETIME,
+      role ENUM('ADMIN','USER') DEFAULT 'USER'
     );
   `;
 

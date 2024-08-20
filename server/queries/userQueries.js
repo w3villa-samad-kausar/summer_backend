@@ -1,4 +1,4 @@
-const db = require('../config/db_config');
+                    const db = require('../config/db_config');
 
 const checkEmailExistsInUser_Verification_table = (email, callback) => {
     db.query(`SELECT * FROM user_verification_table WHERE email = "${email}";`, callback);
