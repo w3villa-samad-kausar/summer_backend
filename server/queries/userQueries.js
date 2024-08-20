@@ -105,7 +105,7 @@ const insertOtp=(email,mobileNumber,mobileOtp,mobileOtpExpireAt,callback)=>{
 const updateIsSocialLogin=(email,callback)=>{
     const updateQuery = `
     UPDATE user_table 
-        SET is_social_sigin = true 
+        SET is_social_signin = true 
         WHERE email = ?
     `;
     db.query(updateQuery, [email], callback);
