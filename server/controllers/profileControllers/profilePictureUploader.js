@@ -1,7 +1,7 @@
 require('dotenv').config();
 const S3 = require("aws-sdk/clients/s3");
 const multer = require('multer');
-const userQueries=require('../queries/userQueries')
+const userQueries=require('../../queries/userQueries')
 
 const accessKeyId = process.env.STORJ_ACCESS_KEY;
 const secretAccessKey = process.env.STORJ_SECRET_KEY;

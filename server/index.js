@@ -1,15 +1,12 @@
 require('dotenv').config();
 
-
-const conn = require('./config/db_config');
-const userRouter = require('./routes/userRoute');
-
+const authRouter = require('./routes/authRoute');
+const profileRouter = require('./routes/profileRoute');
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const { createVerificationTable } = require('./models/verificationModel'); // for creating verification table
 const { createTable } = require('./models/usersModel'); // for creating user table
-const profileRouter = require('./routes/profileRoute');
 createTable()
 createVerificationTable()
 
@@ -32,7 +29,7 @@ app.use((err,req,res,next)=>{
 })
 
 //routes
-app.use('/api',userRouter)
+app.use('/api',authRouter)
 app.use('/api',profileRouter)
 
 app.get('/',(req,res)=>{
