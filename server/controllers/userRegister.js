@@ -19,11 +19,12 @@ const register = async (req, res) => {
         // Check if the user exists in user_table
         userQueries.checkUserByEmailInUser_Table(req.body.email, async (err, result) => {
             if (err) {
-                console.error(messages.databaseQueryError, err);
-                return res.status(500).send({ msg: messages.databaseQueryError });
+                console.error(messages.databaseQueryError, err.sqlMessage);
+                return res.status(500).send({ msg: err.sqlMessage });
             }
 
             if (result && result.length) {
+                console.error(messages.userAlreadyExists);
                 return res.status(400).send({ msg: messages.userAlreadyExists });
             }
 
@@ -32,7 +33,7 @@ const register = async (req, res) => {
                 userQueries.checkEmailExistsInUser_Verification_table(email, async (err, result) => {
                     if (err) {
                         console.error(messages.databaseQueryError, err);
-                        return res.status(500).send({ msg: messages.databaseQueryError });
+                        return res.status(500).send({ msg: err.sqlMessage });
                     }
 
                     // If email is already present in user_verification_table
@@ -56,7 +57,7 @@ const register = async (req, res) => {
                         userQueries.updateUserVerification(userData,mobileOtp,req.body.mobileNumber,req.body.email, async(err,result)=>{
                             if (err) {
                                 console.error(messages.databaseInsertError, err);
-                                return res.status(500).send({ msg: messages.databaseInsertError, error: err });
+                                return res.status(500).send({ msg: err.sqlMessage });
                             }
 
                             try {
@@ -90,7 +91,7 @@ const register = async (req, res) => {
                         userQueries.insertUserVerification(userData, mobileOtp, req.body.email, req.body.mobileNumber, async (err, result) => {
                             if (err) {
                                 console.error(messages.databaseInsertError, err);
-                                return res.status(500).send({ msg: messages.databaseInsertError, error: err });
+                                return res.status(500).send({msg: err.sqlMessage });
                             }
 
                             try {

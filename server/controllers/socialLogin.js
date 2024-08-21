@@ -10,7 +10,7 @@ const oAuthLogin = (req, res) => {
 
         // Database query error
         if (err) {
-            return res.status(400).send({ msg: err });
+            return res.status(400).send({ msg: err.sqlMessage });
         }
 
         // If user doesn't exist
@@ -22,7 +22,7 @@ const oAuthLogin = (req, res) => {
             userQueries.insertSocialUser(email, userData, (err, result) => {
                 // Database query error
                 if (err) {
-                    return res.status(400).send({ msg: err });
+                    return res.status(400).send({ msg: err.sqlMessage });
                 }
                 // If user created successfully then send them to asking number page
                 if (result) {
@@ -44,7 +44,7 @@ const oAuthLogin = (req, res) => {
                 userQueries.updateNextActionAndSocialSignin(email, (err, updateResult) => {
 
                     if (err) {
-                        return res.status(400).send({ msg: err });
+                        return res.status(400).send({ msg: err.sqlMessage });
                     }
                     if (updateResult) {
                         const jwtToken = jwtTokenGenerator(req.body.email);
@@ -62,7 +62,7 @@ const oAuthLogin = (req, res) => {
             if (!(result[0].next_action)) {
                 userQueries.updateIsSocialLogin(email, (err, updateResult) => {
                     if (err) {
-                        return res.status(400).send({ msg: err });
+                        return res.status(400).send({ msg: err.sqlMessage });
                     }
                     if (updateResult) {
                         const jwtToken = jwtTokenGenerator(req.body.email);

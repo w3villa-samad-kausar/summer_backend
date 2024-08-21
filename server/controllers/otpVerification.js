@@ -11,7 +11,7 @@ const verifyOtp = (req, res) => {
     userQueries.checkMobileVerified(mobileNumber, (err, result) => {
         if (err) {
             console.error(messages.databaseQueryError, err);
-            return res.status(500).json({ msg: messages.databaseQueryError });
+            return res.status(500).json({ msg: err.sqlMessage });
         }
 
         if (!result || !result.length) {
@@ -22,7 +22,7 @@ const verifyOtp = (req, res) => {
     userQueries.checkUserByMobileNumber(mobileNumber, (err, result) => {
         if (err) {
             console.error(messages.databaseQueryError, err);
-            return res.status(500).json({ msg: messages.databaseQueryError });
+            return res.status(500).json({ msg: err.sqlMessage });
         }
         
         if (!result || !result.length) {

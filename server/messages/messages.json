@@ -40,9 +40,9 @@
     "otpSentSuccess": "OTP sent successfully",
 
     "comment6": "Failure messages",
-    "invalidEmailOrPassword": "Invalid email or password",
+    "invalidEmail": "Invalid email address",
     "hashPasswordError": "Error in generating Hash Password",
-    "invalidPassword": "Invalid password",
+    "wrongPassword": "Wrong password",
     "userNotFound": "User not found",
     "errorProcessingRequest": "Error processing request",
     "otpSendError": "User registered, but failed to send OTP",

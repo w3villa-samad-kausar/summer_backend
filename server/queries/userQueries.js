@@ -9,7 +9,7 @@ const insertUserVerification = (userData, mobileOtp, email, mobileNumber, callba
         INSERT INTO user_verification_table (
             user_data, mobile_otp_expire_at, mobile_otp, email, mobile_number
         ) VALUES (
-            ?, DATE_ADD(NOW(), INTERVAL 2 MINUTE), ?, ?, ?
+            ?, DATE_ADD(NOW(), INTERVAL 5 MINUTE), ?, ?, ?
         )`;
     db.query(query, [userData, mobileOtp, email, mobileNumber], callback);
 };

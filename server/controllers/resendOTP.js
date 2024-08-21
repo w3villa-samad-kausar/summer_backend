@@ -8,7 +8,7 @@ const resendOtp = async (req, res) => {
   userQueries.checkMobileVerified(req.body.mobileNumber, (error, results) => {
     if (error) {
       console.error(messages.failedMobileVerification, error);
-      return res.status(500).send({ msg: messages.failedMobileVerification, error });
+      return res.status(500).send({ msg:error.sqlMessage });
     }
 
     if (results.length === 0) {
@@ -17,13 +17,13 @@ const resendOtp = async (req, res) => {
 
     const { is_mobile_verified } = results[0];
     if (is_mobile_verified) {
-      return res.status(400).send({ msg: messages.mobileVerified });
+      return res.status(400).send({ msg: messages.mobileAlreadyVerified });
     }
 
     // Generate OTP
     const mobileOtp = generateOtp();
     // Calculate OTP expiry time
-    const mobileOtpExpireAt = new Date(Date.now() + 120 * 1000); // 2 minutes from now
+    const mobileOtpExpireAt = new Date(Date.now() + 300 * 1000); // 5 minutes from now
 
     // Update database with new OTP and expiry time
 
@@ -31,7 +31,7 @@ const resendOtp = async (req, res) => {
     userQueries.updateOtp(mobileOtp, mobileOtpExpireAt, req.body.mobileNumber, async (error, results) => {
       if (error) {
         console.error(messages.failedOtpUpdate, error);
-        return res.status(500).send({ msg: messages.failedOtpUpdate, error });
+        return res.status(500).send({ msg:error.sqlMessage });
       }
 
       // Send OTP via SMS

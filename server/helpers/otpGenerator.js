@@ -5,7 +5,7 @@ const otplib = require('otplib');
  * @returns {string} - The generated OTP.
  */
 function generateOtp() {
-    otplib.authenticator.options = { digits: 4, step: 120 };
+    otplib.authenticator.options = { digits: 4, step: 500 };
     const secret = otplib.authenticator.generateSecret();
     const mobileOtp = otplib.authenticator.generate(secret);
     return mobileOtp;
