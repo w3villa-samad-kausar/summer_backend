@@ -1,7 +1,7 @@
 require('dotenv').config();
 const S3 = require("aws-sdk/clients/s3");
 const multer = require('multer');
-const userQueries=require('../../queries/userQueries')
+const profileQueries = require('../../queries/profileQueries'); // Assuming this is the correct path
 
 const accessKeyId = process.env.STORJ_ACCESS_KEY;
 const secretAccessKey = process.env.STORJ_SECRET_KEY;
@@ -29,8 +29,8 @@ const profilePictureUpload = async (req, res) => {
                 return res.status(500).json({ msg: 'Error uploading file', error: err });
             }
 
-            const file = req.file
-            const email = req.body.email
+            const file = req.file;
+            const userId = req.body.email;
             
             if (!file) {
                 return res.status(400).json({ msg: 'No file provided' });
@@ -44,7 +44,7 @@ const profilePictureUpload = async (req, res) => {
                 Key: fileName,
                 Body: file.buffer,
                 ContentType: file.mimetype,
-                ACL: 'public-read' // Make the object publicly accessible
+                // ACL: 'public-read' // Make the object publicly accessible
             };
 
             // Upload the file to Storj
@@ -54,17 +54,25 @@ const profilePictureUpload = async (req, res) => {
 
             // Construct the public URL for the uploaded object
             const url = `${endpoint}/${bucketName}/${fileName}`;
+            // const signedUrl = s3.getSignedUrl('getObject', { Bucket: bucketName, Key: fileName, Expires: 60 * 60 });
+            console.log(url)
 
-            userQueries.checkUserByEmailInUser_Table(email,(err,result)=>{
-              if(err){
-                return res.status(500).json({ msg: 'Error checking user', error: err });
-              }
-              if(result.length>0){
-                
-              }
-            })
-
-            return res.status(200).json({ msg: 'File uploaded successfully', url });
+            // Check if the user exists and update the profile picture URL
+            profileQueries.getUserById(userId, (err, result) => {
+                if (err) {
+                    return res.status(500).json({ msg: 'Error checking user', error: err });
+                }
+                if (result.length > 0) {
+                    profileQueries.updateUserProfilePicture(userId, url, (updateErr) => {
+                        if (updateErr) {
+                            return res.status(500).json({ msg: 'Error updating profile picture', error: updateErr });
+                        }
+                        return res.status(200).json({ msg: 'File uploaded and profile picture updated successfully', url });
+                    });
+                } else {
+                    return res.status(404).json({ msg: 'User not found' });
+                }
+            });
         });
 
     } catch (error) {
