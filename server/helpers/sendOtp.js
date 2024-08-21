@@ -15,7 +15,6 @@ const sendOtp = async (phoneNumber, otp) => {
             to: formattedNumber
         });
 
-        console.log('OTP sent successfully:', message.sid);
     } catch (error) {
         console.error('Error sending OTP:', error);
         throw error;

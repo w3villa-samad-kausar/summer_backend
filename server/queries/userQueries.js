@@ -1,4 +1,4 @@
-                    const db = require('../config/db_config');
+const db = require('../config/db_config');
 
 const checkEmailExistsInUser_Verification_table = (email, callback) => {
     db.query(`SELECT * FROM user_verification_table WHERE email = "${email}";`, callback);
@@ -17,7 +17,7 @@ const insertUserVerification = (userData, mobileOtp, email, mobileNumber, callba
 const updateUserVerification = (userData, mobileOtp, mobileNumber, email, callback) => {
     const query = `
         UPDATE user_verification_table 
-        SET user_data=?, mobile_otp_expire_at=DATE_ADD(NOW(),INTERVAL 2 MINUTE),mobile_otp=?,mobile_number=?
+        SET user_data=?, mobile_otp_expire_at=DATE_ADD(NOW(),INTERVAL 5 MINUTE),mobile_otp=?,mobile_number=?
         WHERE email = ?`;
     db.query(query, [userData, mobileOtp, mobileNumber, email], callback);
 };
@@ -114,7 +114,7 @@ const updateIsSocialLogin=(email,callback)=>{
 const updateNextActionAndSocialSignin=(email,callback)=>{
     const updateQuery = `
     UPDATE user_table 
-        SET next_action = NULL , is_social_sigin = true
+        SET next_action = NULL , is_social_signin = true
         WHERE email = ?
     `;
     db.query(updateQuery, [email], callback);
