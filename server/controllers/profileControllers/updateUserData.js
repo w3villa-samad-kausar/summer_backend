@@ -10,10 +10,10 @@ const updateUserProfile = async (req, res) => {
         profileQueries.getUserById(userId, (err, result) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json({ message: 'Error fetching user data' });
+                return res.status(500).json({ msg: 'Error fetching user data' });
             }
             if (result.length === 0) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ msg: 'User not found' });
             }
 
             const currentUserData = result[0];
@@ -28,21 +28,21 @@ const updateUserProfile = async (req, res) => {
 
             // If there are no fields to update, return a 400 response
             if (Object.keys(fieldsToUpdate).length === 0) {
-                return res.status(400).json({ message: 'No changes detected' });
+                return res.status(400).json({ msg: 'No changes detected' });
             }
 
             // Perform the update
             profileQueries.updateUserById(userId, fieldsToUpdate, (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.status(500).json({ message: 'Error updating user data' });
+                    return res.status(500).json({ msg: 'Error updating user data' });
                 }
 
-                res.status(200).json({ message: 'Profile updated successfully' });
+                res.status(200).json({ msg: 'Profile updated successfully' });
             });
         });
     } catch (err) {
-        res.status(500).json({ message: 'Server error', err });
+        res.status(500).json({ msg: 'Server error', err });
     }
 };
 
