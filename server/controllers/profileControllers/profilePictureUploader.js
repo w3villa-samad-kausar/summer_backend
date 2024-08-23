@@ -53,7 +53,7 @@ const profilePictureUpload = async (req, res) => {
             }).promise();
 
             // Construct the public URL for the uploaded object
-            const url = `${endpoint}/${bucketName}/${fileName}`;
+            const url = `${process.env.STORJ_BUCKET_LINK}${fileName}`;
             // const signedUrl = s3.getSignedUrl('getObject', { Bucket: bucketName, Key: fileName, Expires: 60 * 60 });
             console.log(url)
 

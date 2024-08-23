@@ -19,6 +19,14 @@ const login = async (req, res) => {
             return res.status(401).send({ msg: messages.invalidEmail });
         }
 
+        const data={
+            id:result[0].id,
+            email:result[0].email,
+            role:result[0].role,
+            name:result[0].name,
+            plan:result[0].plan
+        }
+
         bcrypt.compare(req.body.password, result[0]['password'], (bcryptError, bcryptResult) => {
             if (bcryptError) {
                 return res.status(400).send({ msg: messages.hashPasswordError });
@@ -28,12 +36,11 @@ const login = async (req, res) => {
                 return res.status(401).send({ msg: messages.wrongPassword });
             }
 
-            const jwtToken=jwtTokenGenerator(req.body.email)
+            const jwtToken=jwtTokenGenerator(data)
 
             return res.status(200).send({
                 msg: messages.loginSuccess,
                 token: jwtToken,
-                user: result[0].id
             });
         });
     });
