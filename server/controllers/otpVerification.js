@@ -41,7 +41,7 @@ const verifyOtp = (req, res) => {
         }
 
         const handleUserInsert = () => {
-            userQueries.checkUserByEmail(userData.email, (err, existingUser) => {
+            userQueries.checkUserByEmailInUser_Table(userData.email, (err, existingUser) => {
                 if (err) {
                     console.error(messages.databaseQueryError, err);
                     return res.status(500).json({ msg: err.sqlMessage });

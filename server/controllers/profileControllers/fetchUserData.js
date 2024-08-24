@@ -6,10 +6,10 @@ const getUserData = async (req, res) => {
         profileQueries.getUserById(userId, (err, result) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json({ message: 'Error fetching user data' });
+                return res.status(500).json({ msg: 'Error fetching user data' });
             }
             if (result.length === 0) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ msg: 'User not found' });
             } else {
                 // Filter out the password field from the result
                 const userData = result.map(user => {
@@ -20,7 +20,7 @@ const getUserData = async (req, res) => {
             }
         });
     } catch (err) {
-        res.status(500).json({ message: 'Server error.', err });
+        res.status(500).json({ msg: 'Server error.', err });
     }
 };
 
