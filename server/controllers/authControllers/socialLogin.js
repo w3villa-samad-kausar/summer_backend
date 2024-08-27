@@ -70,7 +70,7 @@ const oAuthLogin = (req, res) => {
                         return res.status(200).send({
                             msg: messages.loginSuccess,
                             token: jwtToken,
-                            user: result[0].id
+                            role:result[0].role
                         });
                     }
                 });
@@ -83,7 +83,7 @@ const oAuthLogin = (req, res) => {
                 return res.status(200).send({
                     msg: messages.loginSuccess,
                     token: jwtToken,
-                    user: result[0].id
+                    role:result[0].role
                 });
             }
 
