@@ -1,10 +1,10 @@
 const { validationResult } = require('express-validator');
-const sendOtp = require('../helpers/sendOtp');
-const userQueries = require('../queries/userQueries');
-const messages = require('../messages/messages.json');
-const db = require('../config/db_config');
-const { hashPassword } = require('../helpers/passwordHasher');
-const { generateOtp } = require('../helpers/otpGenerator');
+const sendOtp = require('../../helpers/sendOtp');
+const userQueries = require('../../queries/userQueries');
+const messages = require('../../messages/messages.json');
+const db = require('../../config/db_config');
+const { hashPassword } = require('../../helpers/passwordHasher');
+const { generateOtp } = require('../../helpers/otpGenerator');
 
 const register = async (req, res) => {
     try {

@@ -1,14 +1,14 @@
 const express=require("express");
 const router=express.Router();
 const { signupValidation,loginValidation, socialLoginValidation} = require("../helpers/validation");
-const userRegister = require("../controllers/userRegister");
-const emailVerification = require("../controllers/emailVerification");
-const otpVerification=require("../controllers/otpVerification");
-const userLogin = require("../controllers/userLogin");
-const resendOtp = require("../controllers/resendOTP");
-const resendEmailVerification = require("../controllers/resendMail");
-const socialLogin  = require("../controllers/socialLogin");
-const sendOtp = require('../controllers/sendOtpForSocialSignin');
+const userRegister = require("../controllers/authControllers/userRegister");
+const emailVerification = require("../controllers/authControllers/emailVerification");
+const otpVerification=require("../controllers/authControllers/otpVerification");
+const userLogin = require("../controllers/authControllers/userLogin");
+const resendOtp = require("../controllers/authControllers/resendOTP");
+const resendEmailVerification = require("../controllers/authControllers/resendMail");
+const socialLogin  = require("../controllers/authControllers/socialLogin");
+const sendOtp = require('../controllers/authControllers/sendOtpForSocialSignin');
 
 router.post('/register',signupValidation,userRegister.register);
 router.post('/verify-email',emailVerification.verifyEmail);

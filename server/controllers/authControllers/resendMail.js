@@ -1,7 +1,7 @@
 const crypto = require('crypto');
-const sendMail = require("../helpers/sendMail");
-const userQueries=require("../queries/userQueries");
-const messages=require("../messages/messages.json")
+const sendMail = require("../../helpers/sendMail");
+const userQueries=require("../../queries/userQueries");
+const messages=require("../../messages/messages.json")
 
 const resendEmailVerification = async (req, res) => {
   const { email } = req.body;

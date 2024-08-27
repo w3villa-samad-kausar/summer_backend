@@ -1,7 +1,7 @@
-const sendOtp = require("../helpers/sendOtp");
-const userQueries = require('../queries/userQueries');
-const messages = require('../messages/messages.json');
-const { generateOtp } = require('../helpers/otpGenerator')
+const sendOtp = require("../../helpers/sendOtp");
+const userQueries = require('../../queries/userQueries');
+const messages = require('../../messages/messages.json');
+const { generateOtp } = require('../../helpers/otpGenerator')
 const resendOtp = async (req, res) => {
   // First, check if the mobile is already verified
 

@@ -10,7 +10,7 @@ const { createTable } = require('./models/usersModel'); // for creating user tab
 createTable()
 createVerificationTable()
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000||3002;
 
 const app=express();
 

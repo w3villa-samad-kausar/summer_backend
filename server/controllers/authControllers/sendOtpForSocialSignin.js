@@ -1,7 +1,7 @@
-const sendOtp = require("../helpers/sendOtp");
-const userQueries = require('../queries/userQueries');
-const messages = require('../messages/messages.json');
-const { generateOtp } = require('../helpers/otpGenerator')
+const sendOtp = require("../../helpers/sendOtp");
+const userQueries = require('../../queries/userQueries');
+const messages = require('../../messages/messages.json');
+const { generateOtp } = require('../../helpers/otpGenerator')
 
 const sendOtpForSocialSignin = async (req, res) => {
     const mobileNumber = req.body.mobileNumber;

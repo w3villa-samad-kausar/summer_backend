@@ -1,8 +1,8 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
-const userQueries = require('../queries/userQueries');
-const messages = require('../messages/messages.json');
-const jwtTokenGenerator = require("../helpers/jwtTokenGenerator");
+const userQueries = require('../../queries/userQueries');
+const messages = require('../../messages/messages.json');
+const jwtTokenGenerator = require("../../helpers/jwtTokenGenerator");
 
 const login = async (req, res) => {
     const errors = validationResult(req);

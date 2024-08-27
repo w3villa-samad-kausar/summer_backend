@@ -1,6 +1,6 @@
-const userQueries = require('../queries/userQueries');
-const messages = require('../messages/messages.json');
-const jwtTokenGenerator = require("../helpers/jwtTokenGenerator");
+const userQueries = require('../../queries/userQueries');
+const messages = require('../../messages/messages.json');
+const jwtTokenGenerator = require("../../helpers/jwtTokenGenerator");
 
 const oAuthLogin = (req, res) => {
     const email = req.body.email;
@@ -52,7 +52,7 @@ const oAuthLogin = (req, res) => {
                         return res.status(200).send({
                             msg: messages.loginSuccess,
                             token: jwtToken,
-                            user: result[0].id
+                            role:result[0].role
                         });
                     }
                 });

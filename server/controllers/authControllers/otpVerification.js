@@ -1,7 +1,7 @@
-const db = require('../config/db_config');
-const userQueries = require('../queries/userQueries');
-const messages = require('../messages/messages.json');
-const jwtTokenGenerator = require('../helpers/jwtTokenGenerator');
+const db = require('../../config/db_config');
+const userQueries = require('../../queries/userQueries');
+const messages = require('../../messages/messages.json');
+const jwtTokenGenerator = require('../../helpers/jwtTokenGenerator');
 
 const verifyOtp = (req, res) => {
     const mobileNumber = req.body.mobileNumber;
@@ -84,7 +84,8 @@ const verifyOtp = (req, res) => {
                                 const jwtToken = jwtTokenGenerator(userData.email);
                                 return res.status(200).json({ 
                                     msg: messages.otpVerifiedSuccess,
-                                    token: jwtToken 
+                                    token: jwtToken,
+                                    role:result[0].role
                                 });
                             });
                         });
@@ -127,7 +128,8 @@ const verifyOtp = (req, res) => {
                             const jwtToken = jwtTokenGenerator(userData.email);
                             return res.status(200).json({ 
                                 msg: messages.otpVerifiedSuccess,
-                                token: jwtToken 
+                                token: jwtToken,
+                                role:result[0].role
                             });
                         });
                     });
