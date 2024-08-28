@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const authRouter = require('./routes/authRoute');
 const profileRouter = require('./routes/profileRoute');
-
+const adminRouter=require('./routes/adminRoute')
 const express = require('express');
 const bodyParser = require('body-parser');
 const { createVerificationTable } = require('./models/verificationModel'); // for creating verification table
@@ -31,6 +31,7 @@ app.use((err,req,res,next)=>{
 //routes
 app.use('/api',authRouter)
 app.use('/api',profileRouter)
+app.use('/api',adminRouter)
 
 app.get('/',(req,res)=>{
   res.send('hello world')
