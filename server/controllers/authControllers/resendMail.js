@@ -2,6 +2,8 @@ const crypto = require('crypto');
 const sendMail = require("../../helpers/sendMail");
 const userQueries=require("../../queries/userQueries");
 const messages=require("../../messages/messages.json")
+require('dotenv').config();
+
 
 const resendEmailVerification = async (req, res) => {
   const { email } = req.body;
@@ -43,7 +45,7 @@ const resendEmailVerification = async (req, res) => {
         }
 
         // Send verification email
-        const content = `<p>${messages.emailBody}<br/><a href="${messages.verificationLink}${verificationToken}">${messages.emailVerificationLinkText}</a></p>`;
+        const content = `<p>${messages.emailBody}<br/><a href="${process.env.EMAIL_VERIFICATION_LINK}${verificationToken}">${messages.emailVerificationLinkText}</a></p>`;
 
         try {
           await sendMail(email, messages.emailSubject, content);

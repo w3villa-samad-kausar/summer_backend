@@ -1,7 +1,5 @@
-const crypto = require('crypto');
 const userQueries = require('../../queries/userQueries');
 const messages = require('../../messages/messages.json');
-const db=require('../../config/db_config')
 const verifyEmail = (req, res) => {
     const token = req.body.token;
     const email=req.body.email
