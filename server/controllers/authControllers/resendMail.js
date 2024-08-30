@@ -1,9 +1,8 @@
 const crypto = require('crypto');
 const sendMail = require("../../helpers/sendMail");
-const userQueries=require("../../queries/userQueries");
-const messages=require("../../messages/messages.json")
+const userQueries = require("../../queries/userQueries");
+const messages = require("../../messages/messages.json");
 require('dotenv').config();
-
 
 const resendEmailVerification = async (req, res) => {
   const { email } = req.body;
@@ -14,7 +13,6 @@ const resendEmailVerification = async (req, res) => {
 
   try {
     // Check if the email is already verified
-
     userQueries.checkEmailVerified(email, async (error, results) => {
       if (error) {
         console.error(messages.failedEmailVerification, error);
@@ -22,12 +20,12 @@ const resendEmailVerification = async (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(404).send({ msg:messages.userNotFound });
+        return res.status(404).send({ msg: messages.userNotFound });
       }
 
       const { is_email_verified } = results[0];
       if (is_email_verified) {
-        return res.status(400).send({ msg: messages.emailVerified });
+        return res.status(400).send({ msg: messages.emailAlreadyVerified });
       }
 
       // Generate a new verification hash
@@ -36,16 +34,17 @@ const resendEmailVerification = async (req, res) => {
       const emailExpireAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
 
       // Update the database with the new verification hash and expiry time
-      
-
       userQueries.updateEmail(verificationHash, emailExpireAt, email, async (error, results) => {
         if (error) {
           console.error(messages.failedVerificationUpdate, error);
           return res.status(500).send({ msg: messages.failedVerificationUpdate, error });
         }
 
+        // Construct the verification link with both token and email
+        const verificationLink = `${process.env.EMAIL_VERIFICATION_LINK}?token=${verificationHash}&email=${encodeURIComponent(email)}`;
+
         // Send verification email
-        const content = `<p>${messages.emailBody}<br/><a href="${process.env.EMAIL_VERIFICATION_LINK}${verificationToken}">${messages.emailVerificationLinkText}</a></p>`;
+        const content = `<p>${messages.emailBody}<br/><a href="${verificationLink}">${messages.emailVerificationLinkText}</a></p>`;
 
         try {
           await sendMail(email, messages.emailSubject, content);

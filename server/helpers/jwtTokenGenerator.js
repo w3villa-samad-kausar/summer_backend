@@ -3,7 +3,7 @@ const jwtSecret = process.env.JWT_SECRET;
 
 const jwtTokenGenerator=(email)=>{
     
-    const jwtToken = jsonwebtoken.sign({ email }, jwtSecret, { expiresIn: "1h" })
+    const jwtToken = jsonwebtoken.sign({ email }, jwtSecret, { expiresIn: "24h" })
 
     return jwtToken;
 

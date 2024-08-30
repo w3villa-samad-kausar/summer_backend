@@ -11,7 +11,7 @@ const socialLogin  = require("../controllers/authControllers/socialLogin");
 const sendOtp = require('../controllers/authControllers/sendOtpForSocialSignin');
 
 router.post('/register',signupValidation,userRegister.register);
-router.post('/verify-email',emailVerification.verifyEmail);
+router.get('/verify-email',emailVerification.verifyEmail);
 router.post('/verify-otp',otpVerification.verifyOtp);
 router.post('/resend-otp',resendOtp)
 router.post('/resend-email-verification', resendEmailVerification);
