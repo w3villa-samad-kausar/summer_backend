@@ -35,11 +35,22 @@ const deleteUserVerificationById = (userId, callback) => {
     db.query(query, [userId], callback);
 };
 
+const updateUserPlan = (userId, plan, callback) => {
+    const sql = 'UPDATE user_table SET plan = ? WHERE email = ?';
+    db.query(sql, [plan, userId], (err, result) => {
+        if (err) {
+            return callback(err, null);
+        }
+        return callback(null, result);
+    });
+};
+
 module.exports = {
     getUserById, 
     updateUserById, 
     updateUserProfilePicture,
     deleteUserById,
-    deleteUserVerificationById
+    deleteUserVerificationById,
+    updateUserPlan
 };
 
