@@ -17,7 +17,8 @@ const createTable = () => {
       plan ENUM('free','silver','gold') DEFAULT 'free',
       subscription_start_date DATETIME,
       subscription_end_date DATETIME,
-      role ENUM('ADMIN','USER') DEFAULT 'USER'
+      role ENUM('ADMIN','USER') DEFAULT 'USER',
+      fcm_token VARCHAR(255)
     );
   `;
 

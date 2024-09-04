@@ -45,12 +45,18 @@ const updateUserPlan = (userId, plan, callback) => {
     });
 };
 
+const insertFcmToken=(userId,token,callback)=>{
+    const query='UPDATE user_table SET fcm_token=? WHERE email=?';
+    db.query(query,[token,userId],callback)
+}
+
 module.exports = {
     getUserById, 
     updateUserById, 
     updateUserProfilePicture,
     deleteUserById,
     deleteUserVerificationById,
-    updateUserPlan
+    updateUserPlan,
+    insertFcmToken
 };
 

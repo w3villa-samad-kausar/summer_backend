@@ -3,6 +3,7 @@
 # Ignore environment variables
 .env
 
+serviceAccountKey.json
 # Node modules
 node_modules/
 

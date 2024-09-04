@@ -6,6 +6,8 @@ const { updateUserProfile } = require("../controllers/profileControllers/updateU
 const { deleteUser } = require("../controllers/profileControllers/deleteUser");
 const adressAutoComplete = require("../controllers/profileControllers/addressAutocomplete");
 const paymentIntent = require("../controllers/profileControllers/paymentGateway");
+const { sendNotification } = require("../controllers/profileControllers/sendNotifications");
+const { insertFcmToken } = require("../controllers/profileControllers/fcmTokenStore");
 const router=express.Router();
 
 router.get('/get-userdata',verifyToken, getUserData)
@@ -17,5 +19,9 @@ router.get('/address-auto-complete',verifyToken,adressAutoComplete);
 //payment route
 
 router.post('/payment',verifyToken,paymentIntent)
+
+//notification route
+router.post('/update-fcm-token',verifyToken,insertFcmToken)
+router.post('/send-notification',sendNotification)
 
 module.exports = router

@@ -1,3 +1,10 @@
+const admin = require('firebase-admin');
+const serviceAccount = require('../server/serviceAccountKey.json'); // Replace with the correct path
+
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 require('dotenv').config();
 
 const authRouter = require('./routes/authRoute');
