@@ -1,4 +1,5 @@
 const profileQueries = require('../../queries/profileQueries');
+const { sendNotificationCallback } = require('./sendNotifications');
 
 const updateUserPlan = async (req, res) => {
     try {
@@ -18,6 +19,7 @@ const updateUserPlan = async (req, res) => {
             if (result.affectedRows === 0) {
                 return res.status(404).json({ msg: 'User not found' });
             } else {
+                sendNotificationCallback(userId,"Plan Updated",`You are now a ${plan} user`)
                 return res.status(200).json({ msg: 'User plan updated successfully' });
             }
         });

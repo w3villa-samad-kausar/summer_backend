@@ -1,7 +1,6 @@
 const db = require('../config/db_config');
 
-const getUserById = async (userId,callback) => {
-    
+const getUserById = async (userId,callback) => {    
     const query = `SELECT * FROM user_table WHERE email = ?`;
     db.query(query, [userId], callback)
 };
@@ -37,18 +36,18 @@ const deleteUserVerificationById = (userId, callback) => {
 
 const updateUserPlan = (userId, plan, callback) => {
     const sql = 'UPDATE user_table SET plan = ? WHERE email = ?';
-    db.query(sql, [plan, userId], (err, result) => {
-        if (err) {
-            return callback(err, null);
-        }
-        return callback(null, result);
-    });
+    db.query(sql, [plan, userId], callback)
 };
 
 const insertFcmToken=(userId,token,callback)=>{
     const query='UPDATE user_table SET fcm_token=? WHERE email=?';
     db.query(query,[token,userId],callback)
 }
+
+const getDeviceTokenByUserId = async (userId,callback) => {    
+    const query = `SELECT fcm_token FROM user_table WHERE email = ?`;
+    db.query(query, [userId], callback)
+};
 
 module.exports = {
     getUserById, 
@@ -57,6 +56,7 @@ module.exports = {
     deleteUserById,
     deleteUserVerificationById,
     updateUserPlan,
-    insertFcmToken
+    insertFcmToken,
+    getDeviceTokenByUserId
 };
 
