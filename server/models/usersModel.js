@@ -12,7 +12,7 @@ const createTable = () => {
       mobile_number VARCHAR(10),
       next_action VARCHAR(30) DEFAULT 'OTP Verification',
       is_social_signin BOOLEAN DEFAULT false,
-      profile_picture_url VARCHAR(255) DEFAULT "https://link.storjshare.io/raw/jvpsqe6bo4xj7zhlfgsnkpza6p4a/summer/default.jpg" ,
+      profile_picture_url VARCHAR(255) DEFAULT 'https://link.storjshare.io/raw/jvpsqe6bo4xj7zhlfgsnkpza6p4a/summer/default.jpg' ,
       address VARCHAR(255),
       plan ENUM('free','silver','gold') DEFAULT 'free',
       subscription_start_date DATETIME,
