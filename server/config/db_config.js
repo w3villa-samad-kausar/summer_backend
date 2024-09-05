@@ -10,7 +10,7 @@ const conn= mysql.createConnection({
   database:process.env.DB_NAME,
   connectTimeout: 10000,
   ssl:{
-    ca: fs.readFileSync('../ca.pem'),
+    ca: fs.readFileSync('ca.pem'),
      rejectUnauthorized: false,
   }
 })
