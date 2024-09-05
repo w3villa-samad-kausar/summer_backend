@@ -1,24 +1,15 @@
 require('dotenv').config();
-const fs = require('fs');
-
 const mysql = require('mysql2');
 
-const conn= mysql.createConnection({
-  host:process.env.DB_HOST,
-  user:process.env.DB_USER,
-  password:process.env.DB_PASSWORD,
-  database:process.env.DB_NAME,
-  connectTimeout: 10000,
-  ssl:{
-    ca: fs.readFileSync('ca.pem'),
-     rejectUnauthorized: false,
+// Using the connection string from the .env file
+const conn = mysql.createConnection(process.env.DB_CONNECTION_STRING);
+
+conn.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err);
+    return;
   }
-})
+  console.log('Connected to the database');
+});
 
-conn.connect((err)=>{
-  if(err) throw err
-  console.log('connected to database')
-})
-
-module.exports=conn
-
+module.exports = conn;
