@@ -1,0 +1,73 @@
+# Exported from Render on 2024-09-05T08:55:59Z
+services:
+- type: web
+  name: summer
+  runtime: node
+  repo: https://github.com/w3villa-samad-kausar/summer_backend
+  plan: free
+  envVars:
+  - key: UNIVERSE_DOMAIN
+    sync: false
+  - key: CLIENT_X509_CERT_URL
+    sync: false
+  - key: AUTH_PROVIDER_X509_CERT_URL
+    sync: false
+  - key: TOKEN_URI
+    sync: false
+  - key: AUTH_URI
+    sync: false
+  - key: CLIENT_ID
+    sync: false
+  - key: CLIENT_EMAIL
+    sync: false
+  - key: PRIVATE_KEY
+    sync: false
+  - key: PRIVATE_KEY_ID
+    sync: false
+  - key: PROJECT_ID
+    sync: false
+  - key: TYPE
+    sync: false
+  - key: PORT
+    sync: false
+  - key: JWT_SECRET
+    sync: false
+  - key: EMAIL_VERIFICATION_LINK
+    sync: false
+  - key: DB_USER
+    sync: false
+  - key: DB_PASSWORD
+    sync: false
+  - key: DB_NAME
+    sync: false
+  - key: DB_HOST
+    sync: false
+  - key: STRIPE_SECRET_KEY
+    sync: false
+  - key: MAP_ACCESS_TOKEN
+    sync: false
+  - key: STORJ_BUCKET_LINK
+    sync: false
+  - key: STORJ_ENDPOINT
+    sync: false
+  - key: STORJ_BUCKET_NAME
+    sync: false
+  - key: STORJ_SECRET_KEY
+    sync: false
+  - key: STORJ_ACCESS_KEY
+    sync: false
+  - key: SMTP_PASSWORD
+    sync: false
+  - key: SMTP_MAIL
+    sync: false
+  - key: TWILIO_PHONE_NUMBER
+    sync: false
+  - key: TWILIO_AUTH_TOKEN
+    sync: false
+  - key: TWILIO_ACCOUNT_SID
+    sync: false
+  region: oregon
+  buildCommand: npm install
+  startCommand: npm start
+  rootDir: server
+version: "1"
