@@ -24,11 +24,11 @@ const updateUserVerification = (userData, mobileOtp, mobileNumber, email, callba
 
 
 const checkUserByEmailInUser_Table = (email, callback) => {
-    db.query(`SELECT * FROM user_table WHERE email=${db.escape(email)};`, callback);
+    db.query(`SELECT * FROM user_table WHERE email=?;`,[email], callback);
 };
 
 const checkUserByMobileNumber = (mobileNumber, callback) => {
-    db.query(`SELECT * FROM user_verification_table WHERE mobile_number=${db.escape(mobileNumber)};`, callback)
+    db.query(`SELECT * FROM user_verification_table WHERE mobile_number=?;`,[mobileNumber], callback)
 }
 
 const checkMobileVerified = (mobileNumber, callback) => {
@@ -52,6 +52,7 @@ const checkEmailVerified = (email, callback) => {
 
 const updateEmail = (verificationHash, emailExpireAt, email, callback) => {
     const updateQuery = `
+    "name":"Samad Kaus
         UPDATE user_verification_table
         SET verification_hash = ?, email_expire_at = ?, email_retry_count = email_retry_count + 1
         WHERE email = ?
