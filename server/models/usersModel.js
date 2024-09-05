@@ -10,7 +10,7 @@ const createTable = () => {
       email VARCHAR(255) unique ,
       password VARCHAR(100),
       mobile_number VARCHAR(10),
-      next_action VARCHAR(30) DEFAULT "OTP Verification",
+      next_action VARCHAR(30) DEFAULT 'OTP Verification',
       is_social_signin BOOLEAN DEFAULT false,
       profile_picture_url VARCHAR(255) DEFAULT "https://link.storjshare.io/raw/jvpsqe6bo4xj7zhlfgsnkpza6p4a/summer/default.jpg" ,
       address VARCHAR(255),
