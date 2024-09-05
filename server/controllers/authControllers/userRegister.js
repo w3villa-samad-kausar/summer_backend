@@ -14,7 +14,7 @@ const register = async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const email = db.escape(req.body.email);
+        const email = req.body.email;
 
         // Check if the user exists in user_table
         userQueries.checkUserByEmailInUser_Table(req.body.email, async (err, result) => {
