@@ -52,7 +52,6 @@ const checkEmailVerified = (email, callback) => {
 
 const updateEmail = (verificationHash, emailExpireAt, email, callback) => {
     const updateQuery = `
-    "name":"Samad Kaus
         UPDATE user_verification_table
         SET verification_hash = ?, email_expire_at = ?, email_retry_count = email_retry_count + 1
         WHERE email = ?
@@ -72,7 +71,7 @@ const updateMobileVerifiedStatus = (mobileNumber, callback) => {
 const insertUser = (userData, callback) => {
     const insertQuery = `
         INSERT INTO user_table (name, email, password, mobile_number,next_action) 
-        VALUES (?, ?, ?, ?,"Email Verification")
+        VALUES (?, ?, ?, ?,'Email Verification')
     `;
     db.query(insertQuery, [userData.name, userData.email, userData.password, userData.mobileNumber], callback);
 };
