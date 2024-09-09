@@ -27,6 +27,7 @@ const oAuthLogin = (req, res) => {
                 }
                 // If user created successfully then send them to asking number page
                 if (result) {
+                    console.log(result)
                     return res.status(200).send({ msg: messages.socialUserCreated });
                 }
             });
