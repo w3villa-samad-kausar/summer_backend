@@ -5,7 +5,7 @@ const jwtTokenGenerator = require("../../helpers/jwtTokenGenerator");
 const oAuthLogin = (req, res) => {
     const email = req.body.email;
     const name = req.body.name;
-
+    console.log(email)
     userQueries.checkUserByEmailInUser_Table(email, async (err, result) => {
 
         // Database query error
@@ -22,6 +22,7 @@ const oAuthLogin = (req, res) => {
             userQueries.insertSocialUser(email, userData, (err, result) => {
                 // Database query error
                 if (err) {
+                    console.log(err)
                     return res.status(400).send({ msg: err.sqlMessage });
                 }
                 // If user created successfully then send them to asking number page

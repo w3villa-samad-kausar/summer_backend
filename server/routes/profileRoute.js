@@ -6,7 +6,6 @@ const { updateUserProfile } = require("../controllers/profileControllers/updateU
 const { deleteUser } = require("../controllers/profileControllers/deleteUser");
 const adressAutoComplete = require("../controllers/profileControllers/addressAutocomplete");
 const paymentIntent = require("../controllers/profileControllers/paymentGateway");
-const { sendNotification } = require("../controllers/profileControllers/sendNotifications");
 const { insertFcmToken } = require("../controllers/profileControllers/fcmTokenStore");
 const { updateUserPlan } = require("../controllers/profileControllers/updatePlan");
 const router=express.Router();
