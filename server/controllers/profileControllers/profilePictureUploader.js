@@ -54,9 +54,6 @@ const profilePictureUpload = async (req, res) => {
 
             // Construct the public URL for the uploaded object
             const url = `${process.env.STORJ_BUCKET_LINK}${fileName}`;
-            // const signedUrl = s3.getSignedUrl('getObject', { Bucket: bucketName, Key: fileName, Expires: 60 * 60 });
-            console.log(url)
-
             // Check if the user exists and update the profile picture URL
             profileQueries.getUserById(userId, (err, result) => {
                 if (err) {

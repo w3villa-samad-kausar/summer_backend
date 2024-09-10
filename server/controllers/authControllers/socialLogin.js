@@ -15,22 +15,35 @@ const oAuthLogin = (req, res) => {
 
         // If user doesn't exist
         if (result.length === 0) {
-            const userData = JSON.stringify({
-                name: name,
-                email: email,
-            });
-            userQueries.insertSocialUser(email, userData, (err, result) => {
+            userQueries.checkEmailExistsInUser_Verification_table(email, async (err, result) => {
                 // Database query error
                 if (err) {
-                    console.log(err)
                     return res.status(400).send({ msg: err.sqlMessage });
                 }
-                // If user created successfully then send them to asking number page
-                if (result) {
-                    console.log(result)
-                    return res.status(200).send({ msg: messages.socialUserCreated });
+                // If user doesn't exist in user_verification table
+                if (result.length === 0) {
+                    const userData = JSON.stringify({
+                        name: name,
+                        email: email,
+                    });
+                    userQueries.insertSocialUser(email, userData, (err, result) => {
+                        // Database query error
+                        if (err) {
+                            console.log(err)
+                            return res.status(400).send({ msg: err.sqlMessage });
+                        }
+                        // If user created successfully then send them to asking number page
+                        if (result) {
+                            console.log(result)
+                            return res.status(200).send({ msg: messages.socialUserCreated });
+                        }
+                    });
                 }
-            });
+                if (result){
+                    return res.status(200).send({msg:messages.socialUserCreated})
+                }
+            })
+            
         }
 
         // If user already exists
@@ -54,7 +67,7 @@ const oAuthLogin = (req, res) => {
                         return res.status(200).send({
                             msg: messages.loginSuccess,
                             token: jwtToken,
-                            role:result[0].role
+                            role: result[0].role
                         });
                     }
                 });
@@ -72,7 +85,7 @@ const oAuthLogin = (req, res) => {
                         return res.status(200).send({
                             msg: messages.loginSuccess,
                             token: jwtToken,
-                            role:result[0].role
+                            role: result[0].role
                         });
                     }
                 });
@@ -85,7 +98,7 @@ const oAuthLogin = (req, res) => {
                 return res.status(200).send({
                     msg: messages.loginSuccess,
                     token: jwtToken,
-                    role:result[0].role
+                    role: result[0].role
                 });
             }
 
