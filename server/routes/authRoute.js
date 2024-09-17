@@ -9,7 +9,6 @@ const resendOtp = require("../controllers/authControllers/resendOTP");
 const resendEmailVerification = require("../controllers/authControllers/resendMail");
 const socialLogin  = require("../controllers/authControllers/socialLogin");
 const sendOtp = require('../controllers/authControllers/sendOtpForSocialSignin');
-const assetLinkGenerator = require("../controllers/authControllers/assetLinks");
 
 router.post('/register',signupValidation,userRegister.register);
 router.get('/verify-email',emailVerification.verifyEmail);
@@ -17,7 +16,6 @@ router.post('/verify-otp',otpVerification.verifyOtp);
 router.post('/resend-otp',resendOtp)
 router.post('/resend-email-verification', resendEmailVerification);
 router.post('/send-Otp',sendOtp.sendOtpForSocialSignin)
-router.get('/.well-known/assetlinks.json',assetLinkGenerator)
 
 router.post('/login',loginValidation,userLogin.login);
 router.post('/social-login',socialLoginValidation,socialLogin.oAuthLogin);

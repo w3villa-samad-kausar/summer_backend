@@ -15,6 +15,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { createVerificationTable } = require('./models/verificationModel'); // for creating verification table
 const { createTable } = require('./models/usersModel'); // for creating user table
+const assetLinkGenerator = require('./controllers/authControllers/assetLinks');
 createTable()
 createVerificationTable()
 
@@ -44,6 +45,8 @@ app.use('/api',adminRouter)
 app.get('/',(req,res)=>{
   res.send('hello world')
 })
+
+app.get('/.well-known/assetlinks.json',assetLinkGenerator)
 
 //server start
 app.listen(port,()=>{
