@@ -5,8 +5,8 @@ const assetLinkGenerator = (req, res) => {
     {
       relation: ["delegate_permission/common.handle_all_urls"],
       target: {
-        namespace: "android_app",
-        package_name: "com.yourapp",
+        namespace: "Summer",
+        package_name: "com.summer",
         sha256_cert_fingerprints: [process.env.SHA256_FINGERPRINT]
       }
     }
